@@ -492,13 +492,25 @@ Credits go to:
   giving up the `ulog` namespace on NPM. Thanks Felix!
 * TJ Holowaychuk for creating [debug](https://github.com/visionmedia/debug), 
   which was a great inspiration for ulog.
-
+* [Tim Perry](https://tim.fyi/) for creating [loglevel](https://npmjs.com/package/loglevel) 
+  which inspired ulog's level switching system that tries to assign the output 
+  method directly if possible in order to preserve original stacktrace info.
+* [Mick Trent](https://trentm.com/) for building [bunyan](https://npmjs.com/package/bunyan) 
+  which made me rethink how ulog's formatting pipeline should work.
 
 ## Copyright
 
-Copyright 2018 by [Stijn de Witt](http://StijnDeWitt.com). Some rights reserved.
+Copyright 2019 by [Stijn de Witt](https://stijndewitt.com). Some rights reserved.
 
 
 ## License
 
 Licensed under the [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/) Open Source license.
+
+
+## gzip-size
+
+The GZIP algorithm is available in different flavours and with different 
+possible compression settings. The sizes quoted in this README have been
+measured using [gzip-size](https://npmjs.com/package/gzip-size) 
+by [Sindre Sorhus](https://github.com/sindresorhus), your mileage may vary.

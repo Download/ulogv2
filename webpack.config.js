@@ -14,7 +14,20 @@ module.exports = {
 
 	devServer: {
 		stats: {
-			chunks: false,
+			assets: 			true,
+			children: 		true,
+			chunks: 			true,
+			hash: 				true,
+			modules: 			true,
+			maxModules:   Infinity,
+			excludeModules: false, // jezus Webpack, 3 settings to finally see hidden modules??
+			publicPath: 	true,
+			timings: 			true,
+			version: 			true,
+			warnings: 		true,
+			colors: {
+				green: '\u001b[32m'
+			}
 		}
 	}
 };
