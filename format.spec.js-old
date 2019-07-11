@@ -1,0 +1,88 @@
+var expect = require('chai').expect
+var sinon = require('sinon')
+var sandbox = sinon.createSandbox()
+var ulog = require('./node')
+ulog.formats.debug = require('./debug')
+ulog.outputs.test = require('./test/console')(sandbox)
+
+describe('ulog.formats.debug = require(\'ulog/debug\')', function(){
+	beforeEach(() => {
+		ulog.set('output', 'test')
+		ulog.set('format', 'debug')
+		ulog.set('level', 'info; test=debug; muted=warn')
+	})
+
+	afterEach(() => {
+		sandbox.reset()
+		ulog.load('level')
+		ulog.load('output')
+		ulog.load('format')
+	})
+
+	it('is a formatting function', function(){
+		expect(ulog.formats.debug).to.be.a('function')
+	})
+
+	it('accepts 4 arguments', function(){
+		expect(ulog.formats.debug.length).to.equal(4)
+	})
+
+	it('can be enabled via the ulog.format or logger.format settings', function(){
+		expect(ulog.format).to.equal('debug')
+	})
+
+	/*
+
+	it('can be used to format loggers', function(){
+		var debug = ulog('test')
+		expect(debug.format).to.deep.equal(['debug'])
+		expect(debug.output).to.deep.equal(['test'])
+		expect(debug.level).to.equal(debug.DEBUG)
+		expect(ulog.outputs.test.info.callCount).to.eq(0)
+		// expect(ulog.outputs.test).to.eq(ulog.outputs.test)
+		console.info('###', 'ulog.outputs.test.info', ulog.outputs.test.info)
+		debug('info', 'test message')
+		expect(ulog.outputs.test.info.callCount).to.eq(1)
+	})
+
+	*/
+
+	it('adds the current time to the log call', function(){
+		var debug = ulog('test')
+		expect(debug.level).to.equal(debug.DEBUG)
+		expect(ulog.outputs.test.log.callCount).to.equal(0)
+		expect(ulog.outputs.test).to.eq(ulog.outputs.test)
+		var message = 'Message'
+		debug(message)
+		expect(ulog.outputs.test.log.callCount).to.equal(1)
+		expect(ulog.outputs.test.log.getCall(0).args[0]).to.be.a('string')
+		expect(ulog.outputs.test.log.getCall(0).args[0].length).to.equal(8)
+	})
+
+/*
+	it('adds the time elapsed since the previous call to the log call', function(){
+		var debug = ulog('test')
+		expect(debug.level).to.equal(debug.DEBUG)
+		expect(ulog.outputs.test.debug.callCount).to.equal(0)
+		var message = 'Message'
+		debug(message)
+		expect(ulog.outputs.test.debug.callCount).to.equal(1)
+		expect(ulog.outputs.test.debug.getCall(0).args[1]).to.be.a('string')
+		expect(ulog.outputs.test.debug.getCall(0).args[1].length).to.equal(5)
+	})
+
+	it('adds the logger name to the log call', function(){
+		var debug = ulog('my-module-name')
+		debug.level = ulog.DEBUG
+		expect(debug.level).to.equal(debug.DEBUG)
+		expect(ulog.outputs.test.debug.callCount).to.equal(0)
+		var message = 'Message'
+		debug(message)
+		expect(ulog.outputs.test.debug.callCount).to.equal(1)
+		expect(ulog.outputs.test.debug.getCall(0).args[2]).to.be.a('string')
+		expect(ulog.outputs.test.debug.getCall(0).args[2].length).to.equal(24)
+		expect(ulog.outputs.test.debug.getCall(0).args[2]).to.equal(debug.name.padEnd(24, ' '))
+	})
+
+	*/
+})

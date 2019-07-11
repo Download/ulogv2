@@ -1,0 +1,3 @@
+log=tutorial=debug;mailer=log;*=info
+log_output=tutorial,mailer=file,console;*=console
+log_format=tutorial=debug

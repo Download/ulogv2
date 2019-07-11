@@ -1,5 +1,5 @@
 ﻿var path = require('path');
-var webpack = require('webpack');
+// var webpack = require('webpack');
 
 module.exports = {
 	// The base directory (absolute path!) for resolving the entry option.

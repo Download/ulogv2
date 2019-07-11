@@ -1,32 +1,22 @@
 // ulog - the universal logger
 // © 2019 by Stijn de Witt, some rights reserved
 // License: CC-BY-4.0
-var ulog = module.exports = require('./ulog')(
-  // default settings
-  {
-    level: 'info',
-    output: 'console'
-  },
+var a = module.exports = require('./core')
 
-  // get the setting named n from the environment
-  function(n) {
-    return process.env[name(n)]
-  },
+a.env = {
+  get: n => process.env[name(n)],
+  set: (n,v) => process.env[name(n)] = v
+}
 
-  // set the setting named n to value v in the environment
-  function(n,v) {
-    process.env[name(n)] = v || ''
-  },
+a.add('mods', {
+  options: require('./options'),
+  levels: require('./levels'),
+  assert: require('./assert'),
+  outputs: require('./outputs/node'),
+  // formats: require('./formats'),
+})
 
-  // extend newly created loggers with these features
-  function(l){
-    l.assert = function(){
-      var a=[].slice.call(arguments)
-      if (!a.shift()) l.error.apply(l, a)
-    }
-  }
-)
-
+// convert option name to platform style
 function name(n){
-  return ({level:'LOG', output:'LOG_OUTPUT', format:'LOG_FORMAT'})[n] || n.toUpperCase()
+  return n == 'level' ? 'LOG' : (n == 'debug' ? 'DEBUG' : 'LOG_' + n.toUpperCase())
 }
